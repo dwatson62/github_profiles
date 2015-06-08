@@ -1,6 +1,7 @@
 githubUserSearch.controller('GitUserSearchController', [function() {
   var self = this;
 
+self.doSearch = function () {
   self.searchResult = {
     'items': [
       {
@@ -15,4 +16,9 @@ githubUserSearch.controller('GitUserSearchController', [function() {
       }
     ]
   };
-}]);
+
+  };
+
+}]
+
+);
