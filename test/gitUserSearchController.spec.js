@@ -4,9 +4,7 @@ describe('GitUserSearchController', function () {
   var ctrl;
 
   beforeEach(inject(function($controller) {
-    // scope = $rootScope.$new();
     ctrl = $controller('GitUserSearchController', {
-      // $scope: scope
     });
   }));
 
@@ -16,6 +14,21 @@ describe('GitUserSearchController', function () {
   });
 
 describe('when searching for a user', function () {
+
+  var httpBackend;
+  beforeEach(inject(function($httpBackend) {
+    httpBackend = $httpBackend
+    httpBackend
+      .when('GET', 'https://api.github.com/search/users?q=hello')
+      .respond(
+        { items: items }
+      );
+  }));
+
+  afterEach(function() {
+    httpBackend.verifyNoOutstandingExpectation();
+    httpBackend.verifyNoOutstandingRequest();
+  });
 
   var items = [
   {
@@ -33,6 +46,7 @@ describe('when searching for a user', function () {
   it('displays search results', function () {
     ctrl.searchTerm = 'hello';
     ctrl.doSearch();
+    httpBackend.flush()
     expect(ctrl.searchResult.items).toEqual(items);
   });
 
